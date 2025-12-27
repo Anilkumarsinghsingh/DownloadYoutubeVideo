@@ -1,5 +1,0 @@
-flask
-yt-dlp
-pillow
-qrcode
-requests
