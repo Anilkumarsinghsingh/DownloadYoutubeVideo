@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>📂 Saved Files</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align:center; margin:40px; background:#2c3e50; color:#ecf0f1; }
+    h2 { margin-bottom:20px; color:#f1c40f; }
+    ul { list-style:none; padding:0; }
+    li { margin:10px 0; }
+    a { color:#1abc9c; text-decoration:none; font-weight:bold; }
+    a:hover { text-decoration:underline; color:#16a085; }
+    .folder { margin-top:20px; font-size:14px; color:#bdc3c7; }
+    .zip-btn { display:inline-block; margin-top:20px; padding:10px 16px; background:#3498db; color:white; border-radius:8px; text-decoration:none; font-weight:bold; }
+    .zip-btn:hover { background:#2980b9; }
+  </style>
+</head>
+<body>
+  <h2>📂 Saved Files</h2>
+  <ul><!DOCTYPE html>
+<html>
+<head>
+  <title>📂 Saved Files</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align:center; margin:40px; background:#2c3e50; color:#ecf0f1; }
+    h2 { margin-bottom:20px; color:#f1c40f; }
+    ul { list-style:none; padding:0; }
+    li { margin:10px 0; }
+    a { color:#1abc9c; text-decoration:none; font-weight:bold; }
+    a:hover { text-decoration:underline; color:#16a085; }
+    .folder { margin-top:20px; font-size:14px; color:#bdc3c7; }
+    .zip-btn { display:inline-block; margin-top:20px; padding:10px 16px; background:#3498db; color:white; border-radius:8px; text-decoration:none; font-weight:bold; }
+    .zip-btn:hover { background:#2980b9; }
+  </style>
+</head>
+<body>
+  <h2>📂 Saved Files</h2>
+  <ul>
+    {% for f in files %}
+      <li><a href="/download/{{ f }}">{{ f }}</a></li>
+    {% else %}
+      <li>No .mp3 or .mp4 files found.</li>
+    {% endfor %}
+  </ul>
+  <p class="folder">Files are saved in: {{ savepath }}</p>
+
+  <a href="/download_all" class="zip-btn">⬇ Download All as ZIP</a>
+
+  <br><br>
+  <a href="/" style="color:#e74c3c;">⬅ Back to Converter</a>
+</body>
+</html>
+    {% for f in files %}
+      <li><a href="/download/{{ f }}">{{ f }}</a></li>
+    {% else %}
+      <li>No .mp3 or .mp4 files found.</li>
+    {% endfor %}
+  </ul>
+  <p class="folder">Files are saved in: {{ savepath }}</p>
+
+  <a href="/download_all" class="zip-btn">⬇ Download All as ZIP</a>
+
+  <br><br>
+  <a href="/" style="color:#e74c3c;">⬅ Back to Converter</a>
+</body>
+</html>

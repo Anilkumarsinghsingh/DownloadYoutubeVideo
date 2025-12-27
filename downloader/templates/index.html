@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🎵 YouTube Video Converter</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align:center; margin:40px; background:#f4f6f9; color:#333; }
+    h2 { margin-bottom:20px; color:#2c3e50; }
+    textarea, select, button, label { margin:8px; padding:8px; font-size:14px; }
+    textarea { border-radius:6px; border:1px solid #ccc; }
+    button { background:#3498db; color:white; border:none; border-radius:6px; cursor:pointer; }
+    button:hover { background:#2980b9; }
+    .bar { width: 80%; margin:auto; background:#ddd; border-radius:8px; }
+    .progress { height:24px; background:#27ae60; width:0%; border-radius:8px; transition:width 0.5s; }
+    #stats { margin-top:10px; font-size:14px; }
+    a.files-link { display:inline-block; margin-top:20px; color:#e74c3c; text-decoration:none; font-weight:bold; }
+    a.files-link:hover { text-decoration:underline; }
+    #savepath { font-weight:bold; color:#2c3e50; }
+    .playlist { margin-top:8px; color:#2c3e50; font-weight:bold; }
+  </style>
+</head>
+<body>
+  <h2>🎵 YouTube Video Converter</h2>
+  <form method="POST" action="/start">
+    <!-- Multiple links textarea -->
+    <textarea name="url" placeholder="Enter one or more YouTube links (space or newline separated)"
+              style="width:60%; height:120px;" required></textarea><br>
+
+    <!-- Quality selector -->
+    <select name="quality">
+      <option value="144">144p</option>
+      <option value="240">240p</option>
+      <option value="360">360p</option>
+      <option value="480">480p</option>
+      <option value="720" selected>720p</option>
+      <option value="1080">1080p</option>
+      <option value="1440">1440p</option>
+      <option value="2160">2160p (4K)</option>
+      <option value="4320">4320p (8K)</option>
+    </select>
+
+    <!-- Format selector -->
+    <select name="format">
+      <option value="mp4" selected>MP4</option>
+      <option value="mp3">MP3</option>
+    </select><br>
+
+    <!-- Auto download checkbox -->
+    <label><input type="checkbox" name="auto" value="true"> Auto Download to Browser (single file only)</label><br>
+
+    <!-- Playlist download toggle -->
+    <label><input type="checkbox" name="playlist" value="true"> Download playlist (if URL is a playlist)</label><br>
+
+    <!-- Convert / Download buttons -->
+    <button type="submit">Convert / Download</button>
+  </form>
+
+  <!-- Show chosen save folder -->
+  <p>Files will be saved to: <span id="savepath">{{ savepath }}</span></p>
+
+  <!-- Progress bar -->
+  <h3>Progress</h3>
+  <div class="bar"><div class="progress" id="progress"></div></div>
+  <p id="stats">Waiting...</p>
+  <p class="playlist" id="plist">Playlist: 0/0</p>
+
+  <!-- Link to file list -->
+  <a href="/files" class="files-link">📂 View Saved Files</a>
+
+  <script>
+    async function update() {
+      try {
+        let res = await fetch("/progress");
+        let data = await res.json();
+        // bar
+        if (data.size > 0) {
+          let percent = (data.downloaded / data.size * 100).toFixed(2);
+          document.getElementById("progress").style.width = percent + "%";
+          let mb = (data.downloaded/1024/1024).toFixed(2);
+          let total = (data.size/1024/1024).toFixed(2);
+          let speed = (data.speed/1024).toFixed(2);
+          let eta = data.eta || 0;
+          document.getElementById("stats").innerText =
+            `${mb} MB / ${total} MB | Speed: ${speed} KB/s | ETA: ${eta}s`;
+        }
+        // playlist counters
+        let pc = data.playlist_count || 0;
+        let pi = data.playlist_index || 0;
+        document.getElementById("plist").innerText = `Playlist: ${pi}/${pc}`;
+      } catch(e) {
+        console.error(e);
+      }
+      setTimeout(update, 1000);
+    }
+    update();
+  </script>
+</body>
+</html>
